@@ -1,11 +1,20 @@
 let hdiv;
-
+let button;
+let speedSlider;
 function setup()
 {
     createCanvas(600, 400);
     background(51);
+    createP("<strong>Revolutions / Dot: </strong>");
+
     hdiv = createDiv();
     frameRate(30);
+    createP("<strong>Speed</strong>");
+    speedSlider = createSlider(0, 2.75, 1, 0.005);
+    speedSlider.style('width', '600px');
+    createP("");
+    button = createButton("Reset Speed");
+    button.mousePressed(() => speedSlider.value(1));
 }
 
 let x = 20;
@@ -19,6 +28,8 @@ let dh = 0.0005;
 function draw()
 {
     translate(600 / 2, 400 / 2);
+
+    dh = 0.0005 * speedSlider.value();
 
     fill(200, 220, 40);
     h -= dh;
