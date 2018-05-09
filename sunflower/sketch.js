@@ -1,6 +1,31 @@
 let hdiv;
 let button;
 let speedSlider;
+let slowerButton;
+let fasterButton;
+
+function slowerAction()
+{
+    let current = speedSlider.value();
+    let n = current - 0.05;
+    if (n < 0) {
+        speedSlider.value(0);
+    } else {
+        speedSlider.value(n);
+    }
+}
+
+function fasterAction()
+{
+    let current = speedSlider.value();
+    let n = current + 0.05;
+    if (n < 0) {
+        speedSlider.value(0);
+    } else {
+        speedSlider.value(n);
+    }
+}
+
 function setup()
 {
     createCanvas(600, 400);
@@ -13,10 +38,15 @@ function setup()
     speedSlider = createSlider(0, 2.75, 1, 0.005);
     speedSlider.style('width', '600px');
     createP("");
+    slowerButton = createButton("Slower");
+    slowerButton.mousePressed(slowerAction);
+    fasterButton = createButton("Faster");
+    fasterButton.mousePressed(fasterAction);
     button = createButton("Reset Speed");
     button.mousePressed(() => speedSlider.value(1));
 }
 
+let factor = 1;
 let x = 20;
 let y = 0;
 let dy = 0;
@@ -29,7 +59,7 @@ function draw()
 {
     translate(600 / 2, 400 / 2);
 
-    dh = 0.0005 * speedSlider.value();
+    dh = factor * 0.0005 * speedSlider.value();
 
     fill(200, 220, 40);
     h -= dh;
@@ -48,8 +78,12 @@ function draw()
             x += 5
         }
     }
-    if (h < 0 || h > 1) {
-        dh = -dh;
+    if (h < 0) {
+        h = 0;
+        factor = -1;
+    } else if (h > 1) {
+        h = 1;
+        factor = 1;
     }
     hdiv.elt.innerHTML = h;
 }
