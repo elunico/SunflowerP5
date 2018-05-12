@@ -3,9 +3,9 @@ let button;
 let speedSlider;
 let slowerButton;
 let fasterButton;
+let reverseButton;
 
-function slowerAction()
-{
+function slowerAction() {
     let current = speedSlider.value();
     let n = current - 0.05;
     if (n < 0) {
@@ -15,8 +15,7 @@ function slowerAction()
     }
 }
 
-function fasterAction()
-{
+function fasterAction() {
     let current = speedSlider.value();
     let n = current + 0.05;
     if (n < 0) {
@@ -26,8 +25,11 @@ function fasterAction()
     }
 }
 
-function setup()
-{
+function reverseAction() {
+    factor = -factor;
+}
+
+function setup() {
     createCanvas(600, 400);
     background(51);
     createP("<strong>Revolutions / Dot: </strong>");
@@ -35,13 +37,15 @@ function setup()
     hdiv = createDiv();
     frameRate(30);
     createP("<strong>Speed</strong>");
-    speedSlider = createSlider(0, 2.75, 1, 0.005);
-    speedSlider.style('width', '600px');
+    speedSlider = createSlider(0, 3, 1, 0.005);
+    speedSlider.style('width', '800px');
     createP("");
     slowerButton = createButton("Slower");
     slowerButton.mousePressed(slowerAction);
     fasterButton = createButton("Faster");
     fasterButton.mousePressed(fasterAction);
+    reverseButton = createButton("Reverse");
+    reverseButton.mousePressed(reverseAction);
     button = createButton("Reset Speed");
     button.mousePressed(() => speedSlider.value(1));
 }
@@ -55,8 +59,7 @@ let count = 0;
 
 let h = 1;
 let dh = 0.0005;
-function draw()
-{
+function draw() {
     translate(600 / 2, 400 / 2);
 
     dh = factor * 0.0005 * speedSlider.value();
@@ -67,7 +70,7 @@ function draw()
     background(51);
     angle = 0;
     x = 20;
-    for (let i = 0; i < 300; i++) {
+    for (let i = 0; i < 600; i++) {
         angle += map(h, 0, 1, 0, PI * 2);
         rotate(angle);
         ellipse(x, y, 10, 10);
